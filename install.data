@@ -1,0 +1,43 @@
+from tkinter import*
+from tkinter import messagebox
+from tkinter.ttk import Progressbar
+import urllib.request
+def MAIN():
+    window = Tk()
+    window.title('MAIN MENU')
+def login():
+    def check():
+        username=usernamein.get()
+        password=passwordin.get()
+        try:
+            response=urllib.request.urlopen('https://raw.githubusercontent.com/jellybeanstaffy/pengysoft/pengysoft/users.txt')
+            text = str(response.read())
+            text = text.split('\\n')
+        except:
+            messagebox.showerror('server error','cannot contact main server')
+        correct = False
+        for item in text:
+            details = item.split('*')
+            if len(details)>2:
+                if username==details[1] and password==details[2]:
+                    window.destroy()
+                    MAIN()
+                    correct=True
+        if correct==False:
+            messagebox.showerror('incorrect','incorrect username or password')
+    window = Tk()
+    window.title('PENGY LOGIN')
+    Label(window,text='USERNAME:').grid(column=0,row=0,sticky=N)
+    usernamein = Entry()
+    usernamein.grid(column=1,row=0,sticky=N)
+    Label(window,text='PASSWORD:').grid(column=0,row=1,sticky=N)
+    passwordin = Entry()
+    passwordin.grid(column=1,row=1,sticky=N)
+    Button(text='LOGIN',command=check).grid(column=1,row=2,sticky=E)
+
+
+
+#progress=Progressbar(window,orient=HORIZONTAL,length=225,mode='determinate')
+#progress.grid(row=7,column=0,sticky='N')
+
+login()
